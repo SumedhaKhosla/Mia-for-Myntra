@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Myntra Clone</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #b351be;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #ff3f6c;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header img {
+            max-width: 200px;
+        }
+
+        main {
+            padding: 20px;
+            background-image: url('column.png');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+        }
+
+        /* section {
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        } */
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* File Upload Pop-up */
+        .file-upload-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        .file-upload-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            height: 60%;
+            padding: 40px;
+            background-color: #fff;
+            border: 2px solid #536dae;
+            border-radius: 12px;
+        }
+
+        .button-wrapper {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        button {
+            background-color: #ff3f6c;
+            color: white;
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #e63950;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <img src="logo.png" alt="Myntra Logo">
+    </header>
+
+    <main>
+        <!-- <section>
+            <h2>About Our Fashion Bot</h2>
+            <p>Get personalized fashion recommendations and style advice.</p>
+        </section>
+
+        <section>
+            <h2>Contact Us</h2>
+            <p>Reach out to us for any queries or support.</p>
+        </section> -->
+
+        <!-- File Upload Modal -->
+        <div id="fileUploadModal" class="file-upload-modal">
+            <div class="file-upload-content">
+                <h3>Upload a File</h3>
+                <input type="file" id="fileInput">
+                <div class="button-wrapper">
+                    <button onclick="submitFile()">Upload</button>
+                    <button id="cancelButton">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Myntra Fashion Bot</p>
+    </footer>
+
+    <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+<script>
+  window.botpressWebChat.init({
+      "composerPlaceholder": "Chat with Mia",
+      "botConversationDescription": "Your Fashion Stylist",
+      "botId": "278cdfd7-f400-4b3e-9d38-cab0f694e1d7",
+      "hostUrl": "https://cdn.botpress.cloud/webchat/v1",
+      "messagingUrl": "https://messaging.botpress.cloud",
+      "clientId": "278cdfd7-f400-4b3e-9d38-cab0f694e1d7",
+      "webhookId": "f33b453e-eb64-472b-b510-154b749aa0c3",
+      "lazySocket": true,
+      "themeName": "prism",
+      "botName": "Mia",
+      "avatarUrl": "https://aartisto.com/wp-content/uploads/2020/11/myntra.png",
+      "stylesheet": "https://webchat-styler-css.botpress.app/prod/37cd561f-552c-4006-acae-0341c1c2f1da/v45206/style.css",
+      "frontendVersion": "v1",
+      "useSessionStorage": true,
+      "theme": "prism",
+      "themeColor": "#2563eb",
+      "allowedOrigins": []
+  });
+
+
+
+        // Listen for the custom event to show the File Upload Modal
+        window.botpressWebChat.onEvent(event => {
+            if (event.type === 'TRIGGER') {
+                if (event.value && event.value.action === 'FileUpload') {
+                    const modal = document.getElementById('fileUploadModal');
+                    modal.style.display = 'block';
+                }
+            }
+        }, ['TRIGGER']);
+
+        // Upload file to Dropbox (replace this with your actual Dropbox upload logic)
+        function submitFile() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+
+            // Check if a file is selected
+            if (!file) {
+                return;
+            }
+
+            // Perform the upload to Dropbox here
+            // ...
+
+            // Close the modal after uploading the file
+            const modal = document.getElementById('fileUploadModal');
+            modal.style.display = 'none';
+
+            window.botpressWebChat.sendPayload({
+                type: 'trigger',
+                payload: { action: 'file_uploaded' }
+            });
+        }
+
+        // Function to close the file upload modal
+        function closeFileUploadModal() {
+            const modal = document.getElementById('fileUploadModal');
+            modal.style.display = 'none';
+        }
+
+        // Function to handle the Cancel button
+        function handleCancel() {
+            const modal = document.getElementById('fileUploadModal');
+            modal.style.display = 'none';
+
+            window.botpressWebChat.sendPayload({
+                type: 'trigger',
+                payload: { action: 'file_upload_canceled' }
+            });
+        }
+
+        // Attach this function to your Cancel button
+        document.getElementById('cancelButton').addEventListener('click', closeFileUploadModal);
+        document.getElementById('cancelButton').addEventListener('click', handleCancel);
+    </script>
+</body>
+
+</html>
