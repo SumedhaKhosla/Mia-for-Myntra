@@ -1,0 +1,10 @@
+Latent Diffusion Models:
+Latent Diffusion Models (LDMs) are a class of generative models that learn to generate data by gradually transforming noise into a data distribution. They can be used for various tasks, including image generation and editing.
+
+Virtual Try-on Systems:
+Virtual try-on systems typically involve fitting clothes onto a user's image. They require accurate body segmentation, pose estimation, and cloth deformation techniques to make the try-on look realistic.
+
+We tried to enhance this model according to our problem solution- a virtual try on based chatbot tested on Indian models for better inclusivity for the Indian fashion market.
+
+
+Referenced from this : https://github.com/levihsu/OOTDiffusion
